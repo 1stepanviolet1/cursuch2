@@ -5,7 +5,7 @@ HEADERS = ./headers/
 TMP = .tmp/
 BIN = bin/
 
-CC = g++
+CPPC = g++
 CPPFLAGS = -I${HEADERS} -std=c++17
 
 SRC_CORE = $(wildcard ${CORE}*.cpp)
@@ -22,13 +22,13 @@ setup:
 	mkdir ${TMP}
 
 ${PROJECT}: ${OBJECTS}
-	${CC} ${CPPFLAGS} $^ -o ${BIN}$@
+	${CPPC} ${CPPFLAGS} $^ -o ${BIN}$@
 
 ${TMP}%.o: %.cpp
-	${CC} ${CPPFLAGS} -c $< -o $@
+	${CPPC} ${CPPFLAGS} -c $< -o $@
 
 ${TMP}%.o: ${CORE}%.cpp
-	${CC} ${CPPFLAGS} -c $< -o $@
+	${CPPC} ${CPPFLAGS} -c $< -o $@
 
 
 clean:
