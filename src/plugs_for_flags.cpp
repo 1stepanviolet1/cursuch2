@@ -1,6 +1,9 @@
 #include "plugs_for_flags.hpp"
 
 
+namespace plug
+{
+
 void 
 draw_line(const objects::Line &_line)
 {
@@ -23,3 +26,5 @@ draw_mirror(const objects::Mirror &_mirror)
     std::cout << std::endl;
 
 }
+
+};

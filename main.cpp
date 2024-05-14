@@ -32,10 +32,10 @@ int main(int argc, char **argv)
     }
 
     if (drawing_line)
-        draw_line(line);
+        plug::draw_line(line);
 
     if (drawing_mirror)
-        draw_mirror(mirror);
+        plug::draw_mirror(mirror);
 
     return 0;
 

@@ -9,7 +9,10 @@
 #include "objects.hpp"
 
 
+namespace plug
+{
 void draw_line(const objects::Line &_line);
 void draw_mirror(const objects::Mirror &_mirror);
+};
 
 #endif // _PLUGS_HPP
