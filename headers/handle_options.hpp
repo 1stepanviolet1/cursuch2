@@ -17,6 +17,7 @@ namespace handleopt
 
 static struct option global_options[] = {
     {"line", no_argument, 0, 'l'},
+    {"mirror", no_argument, 0, 'm'},
     {0, 0, 0, 0}
 };
 
@@ -28,7 +29,16 @@ static struct option line_options[] = {
     {0, 0, 0, 0}
 };
 
+static struct option mirror_options[] = {
+    {"axis", required_argument, 0, 'a'},
+    {"left_up", required_argument, 0, 'l'},
+    {"right_down", required_argument, 0, 'r'},
+    {0, 0, 0, 0}
+};
+
 objects::Line handle_line(int argc, char **argv);
+
+objects::Mirror handle_mirror(int argc, char **argv);
 
 };
 

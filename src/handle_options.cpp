@@ -46,9 +46,9 @@ _handle_rgb(const std::string vals)
         std::exit(EXIT_FAILURE);
     }
 
-    r = std::stoi(vals.substr(0, pos_pt1));
-    g = std::stoi(vals.substr(pos_pt1+1, pos_pt2));
-    b = std::stoi(vals.substr(pos_pt2+1));
+    r = static_cast<std::uint16_t>(std::stoi(vals.substr(0, pos_pt1)));
+    g = static_cast<std::uint16_t>(std::stoi(vals.substr(pos_pt1+1, pos_pt2)));
+    b = static_cast<std::uint16_t>(std::stoi(vals.substr(pos_pt2+1)));
 
     if (!_is_valid_color(r) || !_is_valid_color(g) || !_is_valid_color(b))
     {
@@ -152,6 +152,92 @@ handle_line(int argc, char **argv)
         color,
         thickness
     );
+}
+
+
+objects::Axis
+_handle_axis(const std::string vals)
+{
+    if (vals.size() > 1)
+    {
+        std::cerr << "Error: invalid axis" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    switch (*vals.data())
+    {
+    case static_cast<char>(objects::Axis::x):
+    case static_cast<char>(objects::Axis::y):
+        return static_cast<objects::Axis>(*vals.data());
+    
+    default:
+        std::cerr << "Error: invalid axis" << std::endl;
+        std::exit(EXIT_FAILURE);
+
+    }
+
+}
+
+objects::Mirror 
+handle_mirror(int argc, char **argv)
+{
+    int opt;
+    int option_index;
+
+    bool have_axis = false;
+    bool have_left_up = false;
+    bool have_right_down = false;
+
+    objects::Axis axis;
+    objects::Point left_up;
+    objects::Point right_down;
+
+    while ((opt = getopt_long(argc, argv, "a:l:r:", mirror_options, &option_index)) != -1) 
+    {
+        switch (opt) 
+        {
+        case 'a':
+            have_axis = true;
+            axis = _handle_axis(optarg);
+            break;
+        
+        case 'l':
+            have_left_up = true;
+            left_up = _handle_point(optarg);
+            break;
+        
+        case 'r':
+            have_right_down = true;
+            right_down = _handle_point(optarg);
+            break;
+
+        }
+    }
+
+    if (!have_axis)
+    {
+        std::cerr << "Error: the mirror must have a axis" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    if (!have_left_up)
+    {
+        std::cerr << "Error: the mirror must have a left up point" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    if (!have_right_down)
+    {
+        std::cerr << "Error: the mirror must have a right down point" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    return objects::Mirror(
+        axis,
+        left_up,
+        right_down
+    );
+
 }
 
 };

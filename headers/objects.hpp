@@ -68,6 +68,33 @@ private:
 
 };
 
+
+enum class Axis : char
+{
+    unknown = '0',
+    x = 'x',
+    y = 'y'
+};
+
+
+class Mirror
+{
+public:
+    Mirror(const Axis &_axis, const Point &_left_up, const Point &_right_down);
+
+    Mirror() : Mirror(Axis::unknown, Point(), Point()) {}
+
+    Axis axis() const;
+    Point left_up() const;
+    Point right_down() const;
+
+private:
+    Axis _axis;
+    Point _left_up;
+    Point _right_down;
+
+};
+
 };
 
 

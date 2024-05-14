@@ -12,3 +12,14 @@ draw_line(const objects::Line &_line)
     std::cout << std::endl;
 
 }
+
+void 
+draw_mirror(const objects::Mirror &_mirror)
+{
+    std::cout << "Draw mirror: ";
+    std::cout << "axis(" << static_cast<char>(_mirror.axis()) << ") ";
+    std::cout << "left_up(" << _mirror.left_up().x() << ", " << _mirror.left_up().y() << ") ";
+    std::cout << "right_down(" << _mirror.right_down().x() << ", " << _mirror.right_down().y() << ") ";
+    std::cout << std::endl;
+
+}
