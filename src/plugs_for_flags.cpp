@@ -27,4 +27,15 @@ draw_mirror(const objects::Mirror &_mirror)
 
 }
 
+void 
+draw_pentagram(const objects::Pentagram &_pentagram)
+{
+    std::cout << "Draw pentagram: ";
+    std::cout << "center(" << _pentagram.center().x() << ", " << _pentagram.center().y() << ") ";
+    std::cout << "radius(" << _pentagram.radius() << ") ";
+    std::cout << "thickness(" << _pentagram.thickness() << ") ";
+    std::cout << "color(" << _pentagram.color().r() << ", " << _pentagram.color().g() << ", " << _pentagram.color().b() << ")";
+    std::cout << std::endl;
+}
+
 };

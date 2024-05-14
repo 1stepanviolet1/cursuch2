@@ -99,23 +99,23 @@ handle_line(int argc, char **argv)
         switch (opt) 
         {
         case 's':
-            have_start = true;
             start = _handle_point(optarg);
+            have_start = true;
             break;
         
         case 'e':
-            have_end = true;
             end = _handle_point(optarg);
+            have_end = true;
             break;
         
         case 'c':
-            have_color = true;
             color = _handle_rgb(optarg);
+            have_color = true;
             break;
         
         case 't':
-            have_thickness = true;
             thickness = _handle_thickness(optarg);
+            have_thickness = true;
             break;
 
         }
@@ -182,7 +182,7 @@ objects::Mirror
 handle_mirror(int argc, char **argv)
 {
     int opt;
-    int option_index;
+    int option_index = -1;
 
     bool have_axis = false;
     bool have_left_up = false;
@@ -192,23 +192,23 @@ handle_mirror(int argc, char **argv)
     objects::Point left_up;
     objects::Point right_down;
 
-    while ((opt = getopt_long(argc, argv, "a:l:r:", mirror_options, &option_index)) != -1) 
+    while ((opt = getopt_long(argc, argv, "a:u:d:", mirror_options, &option_index)) != -1) 
     {
         switch (opt) 
         {
         case 'a':
-            have_axis = true;
             axis = _handle_axis(optarg);
+            have_axis = true;
             break;
         
-        case 'l':
-            have_left_up = true;
+        case 'u':
             left_up = _handle_point(optarg);
+            have_left_up = true;
             break;
         
-        case 'r':
-            have_right_down = true;
+        case 'd':
             right_down = _handle_point(optarg);
+            have_right_down = true;
             break;
 
         }
@@ -236,6 +236,97 @@ handle_mirror(int argc, char **argv)
         axis,
         left_up,
         right_down
+    );
+
+}
+
+
+
+std::uint64_t
+_handle_radius(const std::string vals)
+{
+    std::int64_t _r = std::stoi(optarg);
+    if (_r < 1)
+    {
+        std::cerr << "Error: invalid radius" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    return _r;
+
+}
+
+objects::Pentagram 
+handle_pentagram(int argc, char **argv)
+{
+    int opt;
+    int option_index = -1;
+
+    bool have_center = false;
+    bool have_radius = false;
+    bool have_thickness = false;
+    bool have_color = false;
+
+    objects::Point center;
+    std::uint64_t radius;
+    std::uint64_t thickness;
+    objects::RGB color;
+
+    while ((opt = getopt_long(argc, argv, "C:r:h:2:", pentagram_options, &option_index)) != -1) 
+    {
+        switch (opt) 
+        {
+        case 'C':
+            center = _handle_point(optarg);
+            have_center = true;
+            break;
+        
+        case 'r':
+            radius = _handle_radius(optarg);
+            have_radius = true;
+            break;
+        
+        case 'h':
+            thickness = _handle_thickness(optarg);
+            have_thickness = true;
+            break;
+
+        case '2':
+            color = _handle_rgb(optarg);
+            have_color = true;
+            break;
+        }
+    }
+
+    if (!have_center)
+    {
+        std::cerr << "Error: the pentagram must have a center" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    if (!have_radius)
+    {
+        std::cerr << "Error: the pentagram must have a radius" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    if (!have_thickness)
+    {
+        std::cerr << "Error: the pentagram must have a thickness" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    if (!have_color)
+    {
+        std::cerr << "Error: the pentagram must have a color" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    return objects::Pentagram(
+        center,
+        radius,
+        thickness,
+        color
     );
 
 }

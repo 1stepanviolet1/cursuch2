@@ -37,15 +37,15 @@ Line::Line(const Point &_start, const Point &_end, const RGB &_color, std::uint6
 
 }
 
-Point
+const Point &
 Line::start() const
 { return this->_start; }
 
-Point
+const Point &
 Line::end() const
 { return this->_end; }
 
-RGB
+const RGB &
 Line::color() const
 { return this->_color; }
 
@@ -63,16 +63,47 @@ Mirror::Mirror(const Axis &_axis, const Point &_left_up, const Point &_right_dow
 
 }
 
-Axis
+const Axis &
 Mirror::axis() const
 { return this->_axis; }
 
-Point
+const Point &
 Mirror::left_up() const
 { return this->_left_up; }
 
-Point
+const Point &
 Mirror::right_down() const
 { return this->_right_down; }
+
+
+
+Pentagram::Pentagram(const Point &_center, 
+                     std::uint64_t _radius, 
+                     std::uint64_t _thickness, 
+                     const RGB &_color)
+{
+    this->_center = _center;
+    this->_radius = _radius;
+    this->_thickness = _thickness;
+    this->_color = _color;
+
+}
+
+
+const Point & 
+Pentagram::center() const
+{ return this->_center; }
+
+std::uint64_t 
+Pentagram::radius() const
+{ return this->_radius; }
+
+std::uint64_t 
+Pentagram::thickness() const
+{ return this->_thickness; }
+
+const RGB & 
+Pentagram::color() const
+{ return this->_color; }
 
 };

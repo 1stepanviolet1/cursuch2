@@ -13,10 +13,13 @@ int main(int argc, char **argv)
     bool drawing_mirror = false;
     objects::Mirror mirror;
 
+    bool drawing_pentagram = false;
+    objects::Pentagram pentagram;
+
     int opt;
     int option_index = -1;
 
-    while ((opt = getopt_long(argc, argv, "lm", handleopt::global_options, &option_index)) != -1) {
+    while ((opt = getopt_long(argc, argv, "lmp", handleopt::global_options, &option_index)) != -1) {
         switch (opt) {
         case 'l':
             line = handleopt::handle_line(argc, argv);
@@ -27,6 +30,11 @@ int main(int argc, char **argv)
             mirror = handleopt::handle_mirror(argc, argv);
             drawing_mirror = true;
             break;
+        
+        case 'p':
+            pentagram = handleopt::handle_pentagram(argc, argv);
+            drawing_pentagram = true;
+            break;
 
         }
     }
@@ -36,6 +44,9 @@ int main(int argc, char **argv)
 
     if (drawing_mirror)
         plug::draw_mirror(mirror);
+
+    if (drawing_pentagram)
+        plug::draw_pentagram(pentagram);
 
     return 0;
 

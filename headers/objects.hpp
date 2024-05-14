@@ -55,9 +55,9 @@ public:
 
     Line() : Line(Point(), Point(), RGB(), 0) {}
 
-    Point start() const;
-    Point end() const;
-    RGB color() const;
+    const Point & start() const;
+    const Point & end() const;
+    const RGB & color() const;
     std::uint64_t thickness() const;
 
 private:
@@ -84,14 +84,35 @@ public:
 
     Mirror() : Mirror(Axis::unknown, Point(), Point()) {}
 
-    Axis axis() const;
-    Point left_up() const;
-    Point right_down() const;
+    const Axis & axis() const;
+    const Point & left_up() const;
+    const Point & right_down() const;
 
 private:
     Axis _axis;
     Point _left_up;
     Point _right_down;
+
+};
+
+
+class Pentagram
+{
+public:
+    Pentagram(const Point &_center, std::uint64_t _radius, std::uint64_t _thickness, const RGB &_color);
+
+    Pentagram() : Pentagram(Point(), 0, 0, RGB()) {}
+
+    const Point & center() const;
+    std::uint64_t radius() const;
+    std::uint64_t thickness() const;
+    const RGB & color() const;
+
+private:
+    Point _center;
+    std::uint64_t _radius;
+    std::uint64_t _thickness;
+    RGB _color;
 
 };
 
