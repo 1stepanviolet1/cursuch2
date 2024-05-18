@@ -5,6 +5,12 @@
 #define _OBJECTS_HPP
 
 #include <cstdint>
+#include <png.h>
+#include <string>
+#include <cstdio>
+#include <iostream>
+
+#include "exitcodes.hpp"
 
 
 namespace objects
@@ -113,6 +119,33 @@ private:
     std::uint64_t _radius;
     std::uint64_t _thickness;
     RGB _color;
+
+};
+
+
+class PNG
+{
+private:
+    std::string _filename;
+    FILE *_fp;
+    png_structp _png_rptr;
+    png_infop _info_ptr; 
+
+public:
+    PNG(const std::string filename);
+
+    void write(std::string output_file);
+
+    ~PNG();
+
+private:
+    FILE * open_file(std::string filename, std::string mode);
+    void check_png_sig(FILE *_fp);
+    
+    png_structp create_read_struct();
+    png_structp create_write_struct();
+
+    png_infop create_info_struct();
 
 };
 

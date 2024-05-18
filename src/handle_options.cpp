@@ -11,8 +11,8 @@ _handle_point(const std::string vals)
 
     if (pos_pt == std::string::npos)
     {
-        std::cerr << "Error: invalid point" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: invalid point" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     return objects::Point(
@@ -35,15 +35,15 @@ _handle_rgb(const std::string vals)
     std::size_t pos_pt1 = vals.find('.');
     if (pos_pt1 == std::string::npos)
     {
-        std::cerr << "Error: invalid color" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: invalid color" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     std::size_t pos_pt2 = vals.find('.', pos_pt1+1);
     if (pos_pt2 == std::string::npos)
     {
-        std::cerr << "Error: invalid color" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: invalid color" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     r = static_cast<std::uint16_t>(std::stoi(vals.substr(0, pos_pt1)));
@@ -52,8 +52,8 @@ _handle_rgb(const std::string vals)
 
     if (!_is_valid_color(r) || !_is_valid_color(g) || !_is_valid_color(b))
     {
-        std::cerr << "Error: invalid color" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: invalid color" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     return objects::RGB(
@@ -69,8 +69,8 @@ _handle_thickness(const std::string vals)
     std::int64_t _t = std::stoi(optarg);
     if (_t < 1)
     {
-        std::cerr << "Error: invalid thickness" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: invalid thickness" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     return _t;
@@ -123,26 +123,26 @@ handle_line(int argc, char **argv)
 
     if (!have_start)
     {
-        std::cerr << "Error: the line must have a start point" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: the line must have a start point" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     if (!have_end)
     {
-        std::cerr << "Error: the line must have an end point" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: the line must have an end point" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     if (!have_color)
     {
-        std::cerr << "Error: the line must have a color" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: the line must have a color" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     if (!have_thickness)
     {
-        std::cerr << "Error: the line must have a thickness" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: the line must have a thickness" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
 
@@ -160,8 +160,8 @@ _handle_axis(const std::string vals)
 {
     if (vals.size() > 1)
     {
-        std::cerr << "Error: invalid axis" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: invalid axis" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     switch (*vals.data())
@@ -171,8 +171,8 @@ _handle_axis(const std::string vals)
         return static_cast<objects::Axis>(*vals.data());
     
     default:
-        std::cerr << "Error: invalid axis" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: invalid axis" << std::endl;
+        std::exit(FAILURE_CODE);
 
     }
 
@@ -216,20 +216,20 @@ handle_mirror(int argc, char **argv)
 
     if (!have_axis)
     {
-        std::cerr << "Error: the mirror must have a axis" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: the mirror must have a axis" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     if (!have_left_up)
     {
-        std::cerr << "Error: the mirror must have a left up point" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: the mirror must have a left up point" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     if (!have_right_down)
     {
-        std::cerr << "Error: the mirror must have a right down point" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: the mirror must have a right down point" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     return objects::Mirror(
@@ -248,8 +248,8 @@ _handle_radius(const std::string vals)
     std::int64_t _r = std::stoi(optarg);
     if (_r < 1)
     {
-        std::cerr << "Error: invalid radius" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: invalid radius" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     return _r;
@@ -300,26 +300,26 @@ handle_pentagram(int argc, char **argv)
 
     if (!have_center)
     {
-        std::cerr << "Error: the pentagram must have a center" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: the pentagram must have a center" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     if (!have_radius)
     {
-        std::cerr << "Error: the pentagram must have a radius" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: the pentagram must have a radius" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     if (!have_thickness)
     {
-        std::cerr << "Error: the pentagram must have a thickness" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: the pentagram must have a thickness" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     if (!have_color)
     {
-        std::cerr << "Error: the pentagram must have a color" << std::endl;
-        std::exit(EXIT_FAILURE);
+        std::cout << "Error: the pentagram must have a color" << std::endl;
+        std::exit(FAILURE_CODE);
     }
 
     return objects::Pentagram(

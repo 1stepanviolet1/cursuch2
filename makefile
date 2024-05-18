@@ -22,7 +22,7 @@ setup:
 	mkdir ${TMP}
 
 ${PROJECT}: ${OBJECTS}
-	${CPPC} ${CPPFLAGS} $^ -o ${BIN}$@
+	${CPPC} ${CPPFLAGS} $^ -o ${BIN}$@ -lm -lpng
 
 ${TMP}%.o: %.cpp
 	${CPPC} ${CPPFLAGS} -c $< -o $@

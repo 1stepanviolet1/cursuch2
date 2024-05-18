@@ -34,5 +34,6 @@
 # Binary directory
 bin/
 
-# Tmp directory
+# Tmp
 .tmp/
+*.tmp

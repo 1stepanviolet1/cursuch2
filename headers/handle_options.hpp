@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "objects.hpp"
+#include "exitcodes.hpp"
 
 
 namespace handleopt

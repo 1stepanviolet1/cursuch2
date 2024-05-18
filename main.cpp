@@ -1,4 +1,3 @@
-#include <iostream>
 #include <getopt.h>
 
 #include "handle_options.hpp"
@@ -19,8 +18,10 @@ int main(int argc, char **argv)
     int opt;
     int option_index = -1;
 
-    while ((opt = getopt_long(argc, argv, "lmp", handleopt::global_options, &option_index)) != -1) {
-        switch (opt) {
+    while ((opt = getopt_long(argc, argv, "lmp", handleopt::global_options, &option_index)) != -1) 
+    {   
+        switch (opt) 
+        {
         case 'l':
             line = handleopt::handle_line(argc, argv);
             drawing_line = true;
