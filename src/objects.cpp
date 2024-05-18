@@ -1,7 +1,7 @@
 #include "objects.hpp"
 
 
-namespace objects
+namespace obj
 {
 
 std::uint16_t 

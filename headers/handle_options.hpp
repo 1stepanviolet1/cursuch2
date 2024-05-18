@@ -10,7 +10,7 @@
 #include <iostream>
 
 #include "objects.hpp"
-#include "exitcodes.hpp"
+#include "constants.hpp"
 
 
 namespace handleopt
@@ -46,11 +46,11 @@ constexpr struct option pentagram_options[] = {
     {0, 0, 0, 0}
 };
 
-objects::Line handle_line(int argc, char **argv);
+obj::Line handle_line(int argc, char **argv);
 
-objects::Mirror handle_mirror(int argc, char **argv);
+obj::Mirror handle_mirror(int argc, char **argv);
 
-objects::Pentagram handle_pentagram(int argc, char **argv);
+obj::Pentagram handle_pentagram(int argc, char **argv);
 
 };
 

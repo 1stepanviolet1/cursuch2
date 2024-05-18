@@ -5,7 +5,7 @@ namespace plug
 {
 
 void 
-draw_line(const objects::Line &_line)
+draw_line(const obj::Line &_line)
 {
     std::cout << "Draw line: ";
     std::cout << "start(" << _line.start().x() << ", " << _line.start().y() << ") ";
@@ -17,7 +17,7 @@ draw_line(const objects::Line &_line)
 }
 
 void 
-draw_mirror(const objects::Mirror &_mirror)
+draw_mirror(const obj::Mirror &_mirror)
 {
     std::cout << "Draw mirror: ";
     std::cout << "axis(" << static_cast<char>(_mirror.axis()) << ") ";
@@ -28,7 +28,7 @@ draw_mirror(const objects::Mirror &_mirror)
 }
 
 void 
-draw_pentagram(const objects::Pentagram &_pentagram)
+draw_pentagram(const obj::Pentagram &_pentagram)
 {
     std::cout << "Draw pentagram: ";
     std::cout << "center(" << _pentagram.center().x() << ", " << _pentagram.center().y() << ") ";

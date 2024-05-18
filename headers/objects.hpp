@@ -10,10 +10,10 @@
 #include <cstdio>
 #include <iostream>
 
-#include "exitcodes.hpp"
+#include "constants.hpp"
 
 
-namespace objects
+namespace obj
 {
 
 class RGB
@@ -136,16 +136,19 @@ public:
 
     void write(std::string output_file);
 
+    png_structp png_ptr() const;
+    png_infop info_ptr() const;
+
     ~PNG();
 
 private:
-    FILE * open_file(std::string filename, std::string mode);
-    void check_png_sig(FILE *_fp);
+    FILE * _open_file(std::string filename, std::string mode);
+    void _check_png_sig(FILE *_fp);
     
-    png_structp create_read_struct();
-    png_structp create_write_struct();
+    png_structp _create_read_struct();
+    png_structp _create_write_struct();
 
-    png_infop create_info_struct();
+    png_infop _create_info_struct();
 
 };
 

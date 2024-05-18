@@ -1,20 +1,20 @@
 #include "objects.hpp"
 
 
-namespace objects
+namespace obj
 {
 
 PNG::PNG(const std::string filename)
 {
     this->_filename = filename;
 
-    this->_fp = this->open_file(filename, "rb");
+    this->_fp = this->_open_file(filename, "rb");
 
-    this->check_png_sig(this->_fp);
+    this->_check_png_sig(this->_fp);
 
-    this->_png_rptr = this->create_read_struct();
+    this->_png_rptr = this->_create_read_struct();
     
-    this->_info_ptr = this->create_info_struct();
+    this->_info_ptr = this->_create_info_struct();
 
     if (setjmp(png_jmpbuf(this->_png_rptr)))
     {
@@ -30,7 +30,7 @@ PNG::PNG(const std::string filename)
 }
 
 FILE * 
-PNG::open_file(std::string filename, std::string mode)
+PNG::_open_file(std::string filename, std::string mode)
 {
     FILE *_fp = fopen(filename.data(), mode.data());
 
@@ -47,7 +47,7 @@ PNG::open_file(std::string filename, std::string mode)
 }
 
 void 
-PNG::check_png_sig(FILE *_fp)
+PNG::_check_png_sig(FILE *_fp)
 {
     png_byte sig[8];
     fread(sig, 1, 8, _fp);
@@ -61,7 +61,7 @@ PNG::check_png_sig(FILE *_fp)
 }
 
 png_structp 
-PNG::create_read_struct()
+PNG::_create_read_struct()
 {
     png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     if (!png_ptr) 
@@ -76,7 +76,7 @@ PNG::create_read_struct()
 }
 
 png_infop 
-PNG::create_info_struct()
+PNG::_create_info_struct()
 {
     png_infop info_ptr = png_create_info_struct(this->_png_rptr);
     if (!info_ptr) 
@@ -91,7 +91,7 @@ PNG::create_info_struct()
 }
 
 png_structp 
-PNG::create_write_struct()
+PNG::_create_write_struct()
 {
     png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     if (!png_ptr) 
@@ -106,9 +106,11 @@ PNG::create_write_struct()
 void 
 PNG::write(std::string output_file)
 {
-    FILE *_out_fp = this->open_file(output_file, "wb");
+    FILE *_out_fp = this->_open_file(output_file, "wb");
 
-    png_structp _png_wptr = this->create_write_struct();
+    std::cout << "---" << std::endl;
+
+    png_structp _png_wptr = this->_create_write_struct();
 
     if (!_png_wptr)
     {
@@ -116,6 +118,8 @@ PNG::write(std::string output_file)
         fclose(_out_fp);
         std::exit(FAILURE_CODE);
     }
+
+    std::cout << "---" << std::endl;
 
     if (setjmp(png_jmpbuf(_png_wptr)))
     {
@@ -125,12 +129,26 @@ PNG::write(std::string output_file)
         std::exit(FAILURE_CODE);
     }
 
+    std::cout << "---" << std::endl;
+
     png_write_png(_png_wptr, this->_info_ptr, PNG_TRANSFORM_IDENTITY, nullptr);
+
+    std::cout << "---" << std::endl;
 
     fclose(_out_fp);
     png_destroy_write_struct(&_png_wptr, nullptr);
 
+    std::cout << "---" << std::endl;
+
 }
+
+png_structp 
+PNG::png_ptr() const
+{ return this->_png_rptr; }
+
+png_infop 
+PNG::info_ptr() const
+{ return _info_ptr; }
 
 PNG::~PNG()
 {

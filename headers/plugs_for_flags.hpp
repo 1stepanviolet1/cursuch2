@@ -11,9 +11,9 @@
 
 namespace plug
 {
-void draw_line(const objects::Line &_line);
-void draw_mirror(const objects::Mirror &_mirror);
-void draw_pentagram(const objects::Pentagram &_pentagram);
+void draw_line(const obj::Line &_line);
+void draw_mirror(const obj::Mirror &_mirror);
+void draw_pentagram(const obj::Pentagram &_pentagram);
 };
 
 #endif // _PLUGS_HPP

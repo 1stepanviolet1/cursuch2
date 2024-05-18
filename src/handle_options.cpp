@@ -4,7 +4,7 @@
 namespace handleopt
 {
 
-objects::Point
+obj::Point
 _handle_point(const std::string vals)
 {
     std::size_t pos_pt = vals.find('.');
@@ -15,7 +15,7 @@ _handle_point(const std::string vals)
         std::exit(FAILURE_CODE);
     }
 
-    return objects::Point(
+    return obj::Point(
         std::stoi(vals.substr(0, pos_pt)),
         std::stoi(vals.substr(pos_pt+1))
     );
@@ -27,7 +27,7 @@ bool
 _is_valid_color(std::uint16_t _x)
 { return _x >= 0 && _x <= 255; }
 
-objects::RGB
+obj::RGB
 _handle_rgb(const std::string vals)
 {
     std::uint16_t r, g, b;
@@ -56,7 +56,7 @@ _handle_rgb(const std::string vals)
         std::exit(FAILURE_CODE);
     }
 
-    return objects::RGB(
+    return obj::RGB(
         r, g, b
     );
     
@@ -78,7 +78,7 @@ _handle_thickness(const std::string vals)
 }
 
 
-objects::Line 
+obj::Line 
 handle_line(int argc, char **argv)
 {
     int opt;
@@ -89,9 +89,9 @@ handle_line(int argc, char **argv)
     bool have_color = false;
     bool have_thickness = false;
 
-    objects::Point start;
-    objects::Point end;
-    objects::RGB color;
+    obj::Point start;
+    obj::Point end;
+    obj::RGB color;
     std::uint64_t thickness = 0;
 
     while ((opt = getopt_long(argc, argv, "s:e:c:t:", line_options, &option_index)) != -1) 
@@ -146,7 +146,7 @@ handle_line(int argc, char **argv)
     }
 
 
-    return objects::Line(
+    return obj::Line(
         start,
         end,
         color,
@@ -155,7 +155,7 @@ handle_line(int argc, char **argv)
 }
 
 
-objects::Axis
+obj::Axis
 _handle_axis(const std::string vals)
 {
     if (vals.size() > 1)
@@ -166,9 +166,9 @@ _handle_axis(const std::string vals)
 
     switch (*vals.data())
     {
-    case static_cast<char>(objects::Axis::x):
-    case static_cast<char>(objects::Axis::y):
-        return static_cast<objects::Axis>(*vals.data());
+    case static_cast<char>(obj::Axis::x):
+    case static_cast<char>(obj::Axis::y):
+        return static_cast<obj::Axis>(*vals.data());
     
     default:
         std::cout << "Error: invalid axis" << std::endl;
@@ -178,7 +178,7 @@ _handle_axis(const std::string vals)
 
 }
 
-objects::Mirror 
+obj::Mirror 
 handle_mirror(int argc, char **argv)
 {
     int opt;
@@ -188,9 +188,9 @@ handle_mirror(int argc, char **argv)
     bool have_left_up = false;
     bool have_right_down = false;
 
-    objects::Axis axis;
-    objects::Point left_up;
-    objects::Point right_down;
+    obj::Axis axis;
+    obj::Point left_up;
+    obj::Point right_down;
 
     while ((opt = getopt_long(argc, argv, "a:u:d:", mirror_options, &option_index)) != -1) 
     {
@@ -232,7 +232,7 @@ handle_mirror(int argc, char **argv)
         std::exit(FAILURE_CODE);
     }
 
-    return objects::Mirror(
+    return obj::Mirror(
         axis,
         left_up,
         right_down
@@ -256,7 +256,7 @@ _handle_radius(const std::string vals)
 
 }
 
-objects::Pentagram 
+obj::Pentagram 
 handle_pentagram(int argc, char **argv)
 {
     int opt;
@@ -267,10 +267,10 @@ handle_pentagram(int argc, char **argv)
     bool have_thickness = false;
     bool have_color = false;
 
-    objects::Point center;
+    obj::Point center;
     std::uint64_t radius;
     std::uint64_t thickness;
-    objects::RGB color;
+    obj::RGB color;
 
     while ((opt = getopt_long(argc, argv, "C:r:h:2:", pentagram_options, &option_index)) != -1) 
     {
@@ -322,7 +322,7 @@ handle_pentagram(int argc, char **argv)
         std::exit(FAILURE_CODE);
     }
 
-    return objects::Pentagram(
+    return obj::Pentagram(
         center,
         radius,
         thickness,

@@ -1,19 +1,21 @@
 #include <getopt.h>
 
 #include "handle_options.hpp"
+#include "actions.hpp"
+
 #include "plugs_for_flags.hpp"
 
 
 int main(int argc, char **argv)
 {
     bool drawing_line = false;
-    objects::Line line;
+    obj::Line line;
 
     bool drawing_mirror = false;
-    objects::Mirror mirror;
+    obj::Mirror mirror;
 
     bool drawing_pentagram = false;
-    objects::Pentagram pentagram;
+    obj::Pentagram pentagram;
 
     int opt;
     int option_index = -1;
@@ -40,14 +42,24 @@ int main(int argc, char **argv)
         }
     }
 
+    if (!(drawing_line || drawing_mirror || drawing_pentagram))
+    {
+        std::cout << "No flag - no action :)" << std::endl;
+        return 0;
+    }
+
+    obj::PNG png(INPUT_FILENAME);
+
     if (drawing_line)
-        plug::draw_line(line);
+        act::draw_line(png, line);
 
     if (drawing_mirror)
         plug::draw_mirror(mirror);
 
     if (drawing_pentagram)
         plug::draw_pentagram(pentagram);
+
+    png.write(OUTPUT_FILENAME);
 
     return 0;
 
