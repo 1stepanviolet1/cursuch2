@@ -24,13 +24,13 @@ _handle_point(const std::string vals)
 
 
 bool
-_is_valid_color(std::uint16_t _x)
+_is_valid_color(png_byte _x)
 { return _x >= 0 && _x <= 255; }
 
 obj::RGB
 _handle_rgb(const std::string vals)
 {
-    std::uint16_t r, g, b;
+    png_byte r, g, b;
 
     std::size_t pos_pt1 = vals.find('.');
     if (pos_pt1 == std::string::npos)
@@ -46,9 +46,9 @@ _handle_rgb(const std::string vals)
         std::exit(FAILURE_CODE);
     }
 
-    r = static_cast<std::uint16_t>(std::stoi(vals.substr(0, pos_pt1)));
-    g = static_cast<std::uint16_t>(std::stoi(vals.substr(pos_pt1+1, pos_pt2)));
-    b = static_cast<std::uint16_t>(std::stoi(vals.substr(pos_pt2+1)));
+    r = static_cast<png_byte>(std::stoi(vals.substr(0, pos_pt1)));
+    g = static_cast<png_byte>(std::stoi(vals.substr(pos_pt1+1, pos_pt2)));
+    b = static_cast<png_byte>(std::stoi(vals.substr(pos_pt2+1)));
 
     if (!_is_valid_color(r) || !_is_valid_color(g) || !_is_valid_color(b))
     {

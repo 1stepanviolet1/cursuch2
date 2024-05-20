@@ -19,19 +19,19 @@ namespace obj
 class RGB
 {
 public:
-    RGB(std::uint16_t _r, std::uint16_t _g, std::uint16_t _b)
+    RGB(png_byte _r, png_byte _g, png_byte _b)
         : _r(_r), _g(_g), _b(_b) {}
     
     RGB() : RGB(0, 0, 0) {}
     
-    std::uint16_t r() const;
-    std::uint16_t g() const;
-    std::uint16_t b() const;
+    png_byte r() const;
+    png_byte g() const;
+    png_byte b() const;
 
 private:
-    std::uint16_t _r;
-    std::uint16_t _g;
-    std::uint16_t _b;
+    png_byte _r;
+    png_byte _g;
+    png_byte _b;
 
 };
 

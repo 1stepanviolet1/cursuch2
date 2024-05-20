@@ -4,7 +4,9 @@
 #ifndef _ACTIONS_H
 #define _ACTIONS_H
 
+#include <vector>
 #include <cmath>
+#include <algorithm>
 
 #include "objects.hpp"
 

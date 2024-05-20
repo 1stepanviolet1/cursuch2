@@ -108,8 +108,6 @@ PNG::write(std::string output_file)
 {
     FILE *_out_fp = this->_open_file(output_file, "wb");
 
-    std::cout << "---" << std::endl;
-
     png_structp _png_wptr = this->_create_write_struct();
 
     if (!_png_wptr)
@@ -119,8 +117,6 @@ PNG::write(std::string output_file)
         std::exit(FAILURE_CODE);
     }
 
-    std::cout << "---" << std::endl;
-
     if (setjmp(png_jmpbuf(_png_wptr)))
     {
         this->~PNG();
@@ -129,16 +125,12 @@ PNG::write(std::string output_file)
         std::exit(FAILURE_CODE);
     }
 
-    std::cout << "---" << std::endl;
+    png_init_io(_png_wptr, _out_fp);
 
     png_write_png(_png_wptr, this->_info_ptr, PNG_TRANSFORM_IDENTITY, nullptr);
 
-    std::cout << "---" << std::endl;
-
     fclose(_out_fp);
     png_destroy_write_struct(&_png_wptr, nullptr);
-
-    std::cout << "---" << std::endl;
 
 }
 

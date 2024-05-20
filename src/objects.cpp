@@ -4,15 +4,15 @@
 namespace obj
 {
 
-std::uint16_t 
+png_byte 
 RGB::r() const
 { return this->_r; }
 
-std::uint16_t 
+png_byte 
 RGB::g() const
 { return this->_g; }
 
-std::uint16_t 
+png_byte 
 RGB::b() const
 { return this->_b; }
 
