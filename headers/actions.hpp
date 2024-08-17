@@ -1,6 +1,5 @@
 #pragma once
 
-
 #ifndef _ACTIONS_H
 #define _ACTIONS_H
 
@@ -10,8 +9,7 @@
 
 #include "objects.hpp"
 
-
-namespace act
+namespace actions
 {
 
 void draw_line(const obj::PNG &_png, const obj::Line &_line);

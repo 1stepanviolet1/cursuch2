@@ -1,7 +1,7 @@
 #include "actions.hpp"
 
 
-namespace act
+namespace actions
 {
 
 template <typename T>
@@ -13,8 +13,8 @@ _swap(T &a, T &b)
     b = tmp;
 }
 
-std::vector<obj::Point> 
-_calc_point_of_Bresenham(const obj::Point p0, const obj::Point p1) 
+std::vector<obj::Point>
+_calc_point_of_Bresenham(const obj::Point p0, const obj::Point p1)
 {
     std::int64_t x0 = p0.x();
     std::int64_t y0 = p0.y();
@@ -29,19 +29,19 @@ _calc_point_of_Bresenham(const obj::Point p0, const obj::Point p1)
     std::int64_t sy = (y0 < y1) ? 1 : -1;
     std::int64_t err = dx - dy;
 
-    while (true) 
+    while (true)
     {
         linePoints.push_back({x0, y0});
-        if (x0 == x1 && y0 == y1) 
+        if (x0 == x1 && y0 == y1)
             break;
 
         std::int64_t e2 = 2 * err;
-        if (e2 > -dy) 
+        if (e2 > -dy)
         {
             err -= dy;
             x0 += sx;
         }
-        if (e2 < dx) 
+        if (e2 < dx)
         {
             err += dx;
             y0 += sy;
@@ -52,7 +52,7 @@ _calc_point_of_Bresenham(const obj::Point p0, const obj::Point p1)
 }
 
 std::vector<obj::Point>
-_calc_point_of_line(const obj::Point p0, const obj::Point p1, std::int64_t thickness) 
+_calc_point_of_line(const obj::Point p0, const obj::Point p1, std::int64_t thickness)
 {
     std::int64_t x0 = p0.x();
     std::int64_t y0 = p0.y();
@@ -66,7 +66,7 @@ _calc_point_of_line(const obj::Point p0, const obj::Point p1, std::int64_t thick
     linePoints.insert(linePoints.end(), mainLine.begin(), mainLine.end());
 
     // Рисуем дополнительные линии с обеих сторон основной линии
-    for (std::int64_t i = 1; i <= thickness / 2; ++i) 
+    for (std::int64_t i = 1; i <= thickness / 2; ++i)
     {
         std::vector<obj::Point> offsetLine1 = _calc_point_of_Bresenham({x0 + i, y0}, {x1 + i, y1});
         std::vector<obj::Point> offsetLine2 = _calc_point_of_Bresenham({x0 - i, y0}, {x1 - i, y1});
@@ -75,23 +75,22 @@ _calc_point_of_line(const obj::Point p0, const obj::Point p1, std::int64_t thick
     }
 
     // Удаляем дубликаты точек
-    std::sort(linePoints.begin(), 
-              linePoints.end(), 
-              [] (const obj::Point &a, const obj::Point &b) 
-              { return a.x() < b.x() || (a.x() == b.x() && a.y() < b.y()); });
+    std::sort(linePoints.begin(),
+                linePoints.end(),
+                [](const obj::Point &a, const obj::Point &b)
+                { return a.x() < b.x() || (a.x() == b.x() && a.y() < b.y()); });
 
     linePoints.erase(
-        std::unique(linePoints.begin(), 
-                    linePoints.end(), 
-                    [] (const obj::Point &a, const obj::Point &b) 
-                    { return a.x() == b.x() && a.y() == b.y(); }), 
+        std::unique(linePoints.begin(),
+                    linePoints.end(),
+                    [](const obj::Point &a, const obj::Point &b)
+                    { return a.x() == b.x() && a.y() == b.y(); }),
         linePoints.end());
 
     return linePoints;
-
 }
 
-void 
+void
 draw_line(const obj::PNG &_png, const obj::Line &_line)
 {
     std::int64_t width = png_get_image_width(_png.png_ptr(), _png.info_ptr());
@@ -103,8 +102,7 @@ draw_line(const obj::PNG &_png, const obj::Line &_line)
         _line.color().r(),
         _line.color().g(),
         _line.color().b(),
-        255
-    };
+        255};
 
     std::int64_t thickness = _line.thickness();
 
@@ -117,14 +115,12 @@ draw_line(const obj::PNG &_png, const obj::Line &_line)
             continue;
         if (pt.y() < 0 || pt.y() >= height)
             continue;
-        
-        px = &(row_pointers[pt.y()][pt.x()*4]);
+
+        px = &(row_pointers[pt.y()][pt.x() * 4]);
 
         for (std::size_t c = 0; c < 4; ++c)
             px[c] = color[c];
-
     }
-
 }
 
 };

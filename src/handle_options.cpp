@@ -4,6 +4,34 @@
 namespace handleopt
 {
 
+char **
+_copy_args(char **args, int size)
+{
+    char **cp_args = new char*[size];
+
+    for (std::size_t i = 0; i < size; ++i) 
+    {
+        cp_args[i] = new char[std::strlen(args[i]) + 1];
+        std::strcpy(cp_args[i], args[i]);
+    }
+
+    return cp_args;
+
+}
+
+std::nullptr_t
+_free_args(char **args, int size)
+{
+    for (std::size_t i = 0; i < size; ++i) 
+        delete[] args[i];
+
+    delete[] args;
+
+    return nullptr;
+
+}
+
+
 obj::Point
 _handle_point(const std::string vals)
 {
@@ -24,13 +52,13 @@ _handle_point(const std::string vals)
 
 
 bool
-_is_valid_color(png_byte _x)
+_is_valid_color(std::int64_t _x)
 { return _x >= 0 && _x <= 255; }
 
 obj::RGB
 _handle_rgb(const std::string vals)
 {
-    png_byte r, g, b;
+    std::int64_t r, g, b;
 
     std::size_t pos_pt1 = vals.find('.');
     if (pos_pt1 == std::string::npos)
@@ -46,9 +74,9 @@ _handle_rgb(const std::string vals)
         std::exit(FAILURE_CODE);
     }
 
-    r = static_cast<png_byte>(std::stoi(vals.substr(0, pos_pt1)));
-    g = static_cast<png_byte>(std::stoi(vals.substr(pos_pt1+1, pos_pt2)));
-    b = static_cast<png_byte>(std::stoi(vals.substr(pos_pt2+1)));
+    r = static_cast<std::int64_t>(std::stoi(vals.substr(0, pos_pt1)));
+    g = static_cast<std::int64_t>(std::stoi(vals.substr(pos_pt1+1, pos_pt2)));
+    b = static_cast<std::int64_t>(std::stoi(vals.substr(pos_pt2+1)));
 
     if (!_is_valid_color(r) || !_is_valid_color(g) || !_is_valid_color(b))
     {
@@ -57,7 +85,9 @@ _handle_rgb(const std::string vals)
     }
 
     return obj::RGB(
-        r, g, b
+        static_cast<png_byte>(r),
+        static_cast<png_byte>(g),
+        static_cast<png_byte>(b)
     );
     
 }
@@ -78,7 +108,7 @@ _handle_thickness(const std::string vals)
 }
 
 
-obj::Line 
+obj::Line *
 handle_line(int argc, char **argv)
 {
     int opt;
@@ -94,7 +124,7 @@ handle_line(int argc, char **argv)
     obj::RGB color;
     std::uint64_t thickness = 0;
 
-    while ((opt = getopt_long(argc, argv, "s:e:c:t:", line_options, &option_index)) != -1) 
+    while ((opt = getopt_long(argc, argv, "s:e:", line_options, &option_index)) != -1) 
     {
         switch (opt) 
         {
@@ -108,12 +138,12 @@ handle_line(int argc, char **argv)
             have_end = true;
             break;
         
-        case 'c':
+        case 300:
             color = _handle_rgb(optarg);
             have_color = true;
             break;
         
-        case 't':
+        case 301:
             thickness = _handle_thickness(optarg);
             have_thickness = true;
             break;
@@ -146,7 +176,7 @@ handle_line(int argc, char **argv)
     }
 
 
-    return obj::Line(
+    return new obj::Line(
         start,
         end,
         color,
@@ -178,7 +208,7 @@ _handle_axis(const std::string vals)
 
 }
 
-obj::Mirror 
+obj::Mirror *
 handle_mirror(int argc, char **argv)
 {
     int opt;
@@ -192,21 +222,21 @@ handle_mirror(int argc, char **argv)
     obj::Point left_up;
     obj::Point right_down;
 
-    while ((opt = getopt_long(argc, argv, "a:u:d:", mirror_options, &option_index)) != -1) 
+    while ((opt = getopt_long(argc, argv, NULL, mirror_options, &option_index)) != -1) 
     {
         switch (opt) 
         {
-        case 'a':
+        case 302:
             axis = _handle_axis(optarg);
             have_axis = true;
             break;
         
-        case 'u':
+        case 303:
             left_up = _handle_point(optarg);
             have_left_up = true;
             break;
         
-        case 'd':
+        case 304:
             right_down = _handle_point(optarg);
             have_right_down = true;
             break;
@@ -232,7 +262,7 @@ handle_mirror(int argc, char **argv)
         std::exit(FAILURE_CODE);
     }
 
-    return obj::Mirror(
+    return new obj::Mirror(
         axis,
         left_up,
         right_down
@@ -256,7 +286,7 @@ _handle_radius(const std::string vals)
 
 }
 
-obj::Pentagram 
+obj::Pentagram *
 handle_pentagram(int argc, char **argv)
 {
     int opt;
@@ -272,11 +302,11 @@ handle_pentagram(int argc, char **argv)
     std::uint64_t thickness;
     obj::RGB color;
 
-    while ((opt = getopt_long(argc, argv, "C:r:h:2:", pentagram_options, &option_index)) != -1) 
+    while ((opt = getopt_long(argc, argv, "r:", pentagram_options, &option_index)) != -1) 
     {
         switch (opt) 
         {
-        case 'C':
+        case 305:
             center = _handle_point(optarg);
             have_center = true;
             break;
@@ -286,12 +316,12 @@ handle_pentagram(int argc, char **argv)
             have_radius = true;
             break;
         
-        case 'h':
+        case 306:
             thickness = _handle_thickness(optarg);
             have_thickness = true;
             break;
 
-        case '2':
+        case 307:
             color = _handle_rgb(optarg);
             have_color = true;
             break;
@@ -322,12 +352,83 @@ handle_pentagram(int argc, char **argv)
         std::exit(FAILURE_CODE);
     }
 
-    return obj::Pentagram(
+    return new obj::Pentagram(
         center,
         radius,
         thickness,
         color
     );
+
+}
+
+
+obj::Figure *
+handle_options(int argc, char **argv)
+{
+    int opt;
+    int option_index = -1;
+
+    while ((opt = getopt_long(argc, argv, "hi:o:", default_options, &option_index)) != -1) 
+    {
+        switch (opt) 
+        {
+        case 'h':
+            def_opt.have_help = true;
+            std::cout << "help" << std::endl;
+            break;
+        
+        case 311:
+            def_opt.have_info = true;
+            std::cout << "info" << std::endl;
+            break;
+        
+        case 'i':
+            def_opt.input = optarg;
+            std::cout << "input - " << optarg << std::endl;
+            break;
+        
+        case 'o':
+            def_opt.output = optarg;
+            std::cout << "output - " << optarg << std::endl;
+            break;
+
+        case '?':
+        default:
+            NULL;
+        }
+    }
+
+    std::cout << "---" << std::endl;
+
+    obj::Figure::types figure_type;
+
+    while ((opt = getopt_long(argc, argv, NULL, global_options, &option_index)) != -1) 
+    {
+        switch (opt) 
+        {
+        case 308:
+            figure_type = obj::Figure::types::line;
+            goto final_define_figure;
+        
+        case 309:
+            figure_type = obj::Figure::types::mirror;
+            goto final_define_figure;
+        
+        case 310:
+            figure_type = obj::Figure::types::pentagram;
+            goto final_define_figure;
+
+        case '?':
+        default:
+            NULL;
+        }
+    }
+final_define_figure:
+    std::cout << "---" << std::endl;
+
+    auto handle_figure = handle_map.at(figure_type);
+    std::cout << "---" << std::endl;
+    return handle_figure(argc, argv);
 
 }
 

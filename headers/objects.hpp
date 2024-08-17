@@ -54,7 +54,26 @@ private:
 };
 
 
-class Line
+class Figure
+{
+public:
+    enum class types
+    {
+        line = 1,
+        mirror = 2,
+        pentagram = 3
+    };
+
+protected:
+    types _figure;
+
+public:
+    const types & figure() const;
+
+};
+
+
+class Line : public Figure
 {
 public:
     Line(const Point &_start, const Point &_end, const RGB &_color, std::uint64_t _thickness);
@@ -77,18 +96,18 @@ private:
 
 enum class Axis : char
 {
-    unknown = '0',
+    null = '0',
     x = 'x',
     y = 'y'
 };
 
 
-class Mirror
+class Mirror : public Figure
 {
 public:
     Mirror(const Axis &_axis, const Point &_left_up, const Point &_right_down);
 
-    Mirror() : Mirror(Axis::unknown, Point(), Point()) {}
+    Mirror() : Mirror(Axis::null, Point(), Point()) {}
 
     const Axis & axis() const;
     const Point & left_up() const;
@@ -102,7 +121,7 @@ private:
 };
 
 
-class Pentagram
+class Pentagram : public Figure
 {
 public:
     Pentagram(const Point &_center, std::uint64_t _radius, std::uint64_t _thickness, const RGB &_color);
@@ -126,27 +145,51 @@ private:
 class PNG
 {
 private:
-    std::string _filename;
+    std::string _ifilename;
+    std::string _ofilename;
     FILE *_fp;
     png_structp _png_rptr;
     png_infop _info_ptr; 
 
 public:
-    PNG(const std::string filename);
+    PNG(const std::string &filename, const std::string &output_file="out.png")
+    {
+        this->_ifilename = filename;
+        this->_ofilename = output_file;
 
-    void write(std::string output_file);
+        this->_png_constructor();
 
-    png_structp png_ptr() const;
-    png_infop info_ptr() const;
+    }
+
+    void write(std::string output_file="out.png")
+    {
+        if (output_file != "out.png")
+            goto end_define_ofilename;
+        
+        if (this->_ofilename != "out.png")
+            output_file = this->_ofilename;
+
+end_define_ofilename:
+
+        this->_write(output_file);
+
+    }
+
+    inline png_structp png_ptr() const
+    { return this->_png_rptr; }
+
+    inline png_infop info_ptr() const
+    { return this->_info_ptr; }
 
     ~PNG();
 
 private:
+    void _png_constructor();
+    void _write(std::string output_file);
     FILE * _open_file(std::string filename, std::string mode);
     void _check_png_sig(FILE *_fp);
     
     png_structp _create_read_struct();
-    png_structp _create_write_struct();
 
     png_infop _create_info_struct();
 

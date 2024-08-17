@@ -4,11 +4,10 @@
 namespace obj
 {
 
-PNG::PNG(const std::string filename)
+void
+PNG::_png_constructor()
 {
-    this->_filename = filename;
-
-    this->_fp = this->_open_file(filename, "rb");
+    this->_fp = this->_open_file(this->_ifilename, "rb");
 
     this->_check_png_sig(this->_fp);
 
@@ -37,7 +36,7 @@ PNG::_open_file(std::string filename, std::string mode)
     if (!_fp) 
     {
         this->~PNG();
-        std::cout << "Ошибка открытия файла " << filename << std::endl;
+        std::cout << "Ошибка открытия файла \"" << filename << '\"' << std::endl;
         std::exit(FAILURE_CODE);
 
     }
@@ -54,7 +53,7 @@ PNG::_check_png_sig(FILE *_fp)
     if (!png_check_sig(sig, 8))
     {
         this->~PNG();
-        std::cout << "Файл " << this->_filename << " не является допустимым PNG-файлом" << std::endl;
+        std::cout << "Файл " << this->_ifilename << " не является допустимым PNG-файлом" << std::endl;
         std::exit(FAILURE_CODE);
     }
 
@@ -90,25 +89,12 @@ PNG::_create_info_struct()
 
 }
 
-png_structp 
-PNG::_create_write_struct()
-{
-    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
-    if (!png_ptr) 
-    {
-        this->~PNG();
-        std::cout << "Ошибка при создании png_struct" << std::endl;
-    }
-
-    return png_ptr;
-}
-
 void 
-PNG::write(std::string output_file)
+PNG::_write(std::string output_file)
 {
     FILE *_out_fp = this->_open_file(output_file, "wb");
 
-    png_structp _png_wptr = this->_create_write_struct();
+    png_structp _png_wptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
 
     if (!_png_wptr)
     {
@@ -133,14 +119,6 @@ PNG::write(std::string output_file)
     png_destroy_write_struct(&_png_wptr, nullptr);
 
 }
-
-png_structp 
-PNG::png_ptr() const
-{ return this->_png_rptr; }
-
-png_infop 
-PNG::info_ptr() const
-{ return _info_ptr; }
 
 PNG::~PNG()
 {

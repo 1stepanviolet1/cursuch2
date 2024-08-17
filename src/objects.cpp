@@ -28,12 +28,21 @@ Point::y() const
 
 
 
-Line::Line(const Point &_start, const Point &_end, const RGB &_color, std::uint64_t _thickness)
+const Figure::types & Figure::figure() const
+{ return this->_figure; }
+
+
+Line::Line(const Point &_start, 
+           const Point &_end, 
+           const RGB &_color, 
+           std::uint64_t _thickness)
 {
     this->_start = _start;
     this->_end = _end;
     this->_color = _color;
     this->_thickness = _thickness;
+
+    this->_figure = types::line;
 
 }
 
@@ -61,6 +70,8 @@ Mirror::Mirror(const Axis &_axis, const Point &_left_up, const Point &_right_dow
     this->_left_up = _left_up;
     this->_right_down = _right_down;
 
+    this->_figure = types::mirror;
+
 }
 
 const Axis &
@@ -86,6 +97,8 @@ Pentagram::Pentagram(const Point &_center,
     this->_radius = _radius;
     this->_thickness = _thickness;
     this->_color = _color;
+
+    this->_figure = types::pentagram;
 
 }
 
