@@ -3,7 +3,6 @@
 
 _DRAWING_BEGIN
 
-
 Line::Line()
     : _start_point({0, 0}), _end_point({0, 0}), _color(png::Color()), _thickness(0)
 {    }
@@ -11,7 +10,10 @@ Line::Line()
 void
 Line::draw(png::Image &_image) const
 {
-    throw std::runtime_error("Line::draw");
+    if (!this->_thickness)
+        throw std::invalid_argument("bad data for Line");
+    
+    
 
 }
 
