@@ -1,7 +1,7 @@
 #include "color.h"
 
 
-_PNG_START
+_PNG_BEGIN
 
 Color::Color(std::size_t _r, std::size_t _g, std::size_t _b)
 {
@@ -9,6 +9,14 @@ Color::Color(std::size_t _r, std::size_t _g, std::size_t _b)
     this->g(_g);
     this->b(_b);
 
+}
+
+Color::Color()
+{
+    this->r(0);
+    this->g(0);
+    this->b(0);
+    
 }
 
 png_byte 

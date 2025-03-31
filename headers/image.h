@@ -4,13 +4,13 @@
 #ifndef _PNG_IMAGE_H
 #define _PNG_IMAGE_H
 
-#include <cstdint>
 #include <png.h>
 #include <string>
 
 #include "color.h"
+#include "point.h"
 
-_PNG_START
+_PNG_BEGIN
 
 class Image
 {
@@ -36,8 +36,8 @@ public:
     void load(const std::string &filename);
     void save(const std::string &filename);
 
-    Color pixel(std::size_t x, std::size_t y) const;
-    Color pixel(std::size_t x, std::size_t y, const Color &color);
+    Color pixel(const drawing::Point &_p) const;
+    Color pixel(const drawing::Point &_p, const Color &color);
 
     std::size_t width() const noexcept;
     std::size_t height() const noexcept;

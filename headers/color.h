@@ -4,18 +4,18 @@
 #ifndef _COLOR_H
 #define _COLOR_H
 
-#include <cstdint>
 #include <png.h>
 #include <iostream>
 
 #include "options.h"
 
-_PNG_START
+_PNG_BEGIN
 
 class Color
 {
 public:
     explicit Color(std::size_t _r, std::size_t _g, std::size_t _b);
+    Color();
 
     png_byte r() const noexcept;
     png_byte g() const noexcept;

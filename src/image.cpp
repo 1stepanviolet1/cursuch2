@@ -1,7 +1,7 @@
 #include "image.h"
 
 
-_PNG_START
+_PNG_BEGIN
 
 Image::Image(const std::string &filename)
 {
@@ -47,7 +47,7 @@ Image::load(const std::string &filename)
 
     png_init_io(png, file);
 
-    png_read_png(png, info, NULL, NULL);
+    png_read_png(png, info, PNG_TRANSFORM_IDENTITY, NULL);
 
     this->_png_read_ptr = png;
     this->_info_read_ptr = info;
@@ -115,7 +115,8 @@ Image::save(const std::string &filename)
                  this->_filter_type);
     
     png_set_rows(png, info, this->_rows);
-    png_write_png(png, info, NULL, NULL);
+    
+    png_write_png(png, info, PNG_TRANSFORM_IDENTITY, NULL);
     
     png_destroy_write_struct(&png, &info);
     fclose(file);
@@ -123,31 +124,31 @@ Image::save(const std::string &filename)
 }
 
 Color 
-Image::pixel(std::size_t x, std::size_t y) const
+Image::pixel(const drawing::Point &_p) const
 {
-    if (x >= this->_width || y >= this->_height) {
+    if (_p.x() >= this->_width || _p.y() >= this->_height) {
         std::cerr << "Error: Invalid pixel coordinates" << std::endl;
         std::exit(exitcode::ERROR);
     }
 
     return Color(
-        this->_rows[y][x * this->_channels], 
-        this->_rows[y][x * this->_channels + 1], 
-        this->_rows[y][x * this->_channels + 2]
+        this->_rows[_p.y()][_p.x() * this->_channels], 
+        this->_rows[_p.y()][_p.x() * this->_channels + 1], 
+        this->_rows[_p.y()][_p.x() * this->_channels + 2]
     );
 }
 
 Color 
-Image::pixel(std::size_t x, std::size_t y, const Color &color)
+Image::pixel(const drawing::Point &_p, const Color &color)
 {
-    if (x >= this->_width || y >= this->_height) {
+    if (_p.x() >= this->_width || _p.y() >= this->_height) {
         std::cerr << "Error: Invalid pixel coordinates" << std::endl;
         std::exit(exitcode::ERROR);
     }
 
-    this->_rows[y][x * this->_channels] = color.r();
-    this->_rows[y][x * this->_channels + 1] = color.g();
-    this->_rows[y][x * this->_channels + 2] = color.b();
+    this->_rows[_p.y()][_p.x() * this->_channels] = color.r();
+    this->_rows[_p.y()][_p.x() * this->_channels + 1] = color.g();
+    this->_rows[_p.y()][_p.x() * this->_channels + 2] = color.b();
     return color;
 
 }
@@ -164,7 +165,7 @@ Image::height() const noexcept
 Image::~Image()
 {
     this->_clear_read_data();
-    
+
 }
 
 void 
