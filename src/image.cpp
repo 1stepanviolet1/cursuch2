@@ -21,7 +21,7 @@ Image::load(const std::string &filename)
         std::exit(exitcode::ERROR);
     }
 
-    this->_check_png(file);
+    //this->_check_png(file);
 
     png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     if (!png) {

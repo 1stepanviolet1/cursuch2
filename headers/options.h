@@ -5,7 +5,7 @@
 #define _OPTIONS_H
 
 #include <cstdint>
-
+#include <iostream>
 // namespace png
 #define _PNG_BEGIN \
     namespace png  \
