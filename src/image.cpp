@@ -187,7 +187,7 @@ Image::_check_png(FILE *file) const
 {
     png_byte signature[8];
     fread(signature, 1, 8, file);
-    if (!png_sig_cmp(signature, 0, 8)) {
+    if (png_sig_cmp(signature, 0, 8)) {
         std::cerr << "Error: File is not a valid PNG (invalid signature)" << std::endl;
         fclose(file);
         std::exit(exitcode::ERROR);

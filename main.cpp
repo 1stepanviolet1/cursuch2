@@ -7,9 +7,9 @@ int main(int argc, char **argv)
     png::Image image("./data/image.png");
 
     drawing::CircleBuilder circle_builder;
-    circle_builder.setup_center({100, 100})
+    circle_builder.setup_center({500, 500})
                   .setup_radius(50)
-                  .setup_color(png::Color(255, 0, 0));
+                  .setup_color(png::Color(0, 255, 0));
 
     circle_builder.get()->draw(image);
 
