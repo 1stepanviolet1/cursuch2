@@ -29,10 +29,19 @@ Circle::draw(png::Image &_image) const
                ? this->_center.y() + this->_radius
                : _image.height() - 1;
 
+    std::int64_t __dx, __dy;
     for (std::size_t y = min_y; y <= max_y; y++)
         for (std::size_t x = min_x; x <= max_x; x++)
-            if (std::pow(x - this->_center.x(), 2) + std::pow(y - this->_center.y(), 2) <= std::pow(this->_radius, 2))
-                _image.pixel({x, y}, this->_color);
+        {
+            __dx = x - this->_center.x();
+            __dy = y - this->_center.y();
+
+            if (
+                std::pow(__dx, 2) 
+                + std::pow(__dy, 2) 
+                <= std::pow(this->_radius, 2)
+            ) _image.pixel({x, y}, this->_color);
+        }
 
 }
 
