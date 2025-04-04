@@ -14,35 +14,32 @@ void
 Image::load(const std::string &filename) 
 {
     this->_clear_read_data();
+    this->_check_png(filename);
 
     FILE *file = fopen(filename.c_str(), "rb");
-    if (!file) {
-        std::cerr << "Error: Cannot open file " << filename << std::endl;
-        std::exit(exitcode::ERROR);
-    }
-
-    //this->_check_png(file);
+    if (!file)
+        throw std::invalid_argument("Error: Cannot open file");
 
     png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
-    if (!png) {
-        std::cerr << "Error: Cannot create png_struct" << std::endl;
+    if (!png)
+    {
         fclose(file);
-        std::exit(exitcode::ERROR);
+        throw std::invalid_argument("Error: Cannot create png_struct");
     }
 
     png_infop info = png_create_info_struct(png);
-    if (!info) {
-        std::cerr << "Error: Cannot create info_struct" << std::endl;
+    if (!info)
+    {
         png_destroy_read_struct(&png, nullptr, nullptr);
         fclose(file);
-        std::exit(exitcode::ERROR);
+        throw std::invalid_argument("Error: Cannot create info_struct");
     }
 
-    if (setjmp(png_jmpbuf(png))) {
-        std::cerr << "Error: bad setjmp(png_jmpbuf(png))" << std::endl;
+    if (setjmp(png_jmpbuf(png)))
+    {
         png_destroy_read_struct(&png, &info, nullptr);
         fclose(file);
-        std::exit(exitcode::ERROR);
+        throw std::invalid_argument("Error: bad setjmp(png_jmpbuf(png))");
     }
 
     png_init_io(png, file);
@@ -73,37 +70,32 @@ void
 Image::save(const std::string &filename)
 {
     if (this->_png_read_ptr == NULL || this->_info_read_ptr == NULL)
-    {
-        std::cerr << "Error: No image data to save" << std::endl;
-        std::exit(exitcode::ERROR);
-    }
+        throw std::invalid_argument("Error: No image data to save");
 
     FILE *file = fopen(filename.c_str(), "wb");
-    if (!file) {
-        std::cerr << "Error: Cannot open file " << filename << std::endl;
-        std::exit(exitcode::ERROR);
-    }
+    if (!file)
+        throw std::invalid_argument("Error: Cannot open file");
 
     png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
-    if (!png) {
-        std::cerr << "Error: Cannot create png_struct" << std::endl;
+    if (!png)
+    {
         fclose(file);
-        std::exit(exitcode::ERROR);
+        throw std::invalid_argument("Error: Cannot create png_struct");
     }
 
     png_infop info = png_create_info_struct(png);
-    if (!info) {
-        std::cerr << "Error: Cannot create info_struct" << std::endl;
+    if (!info)
+    {
         png_destroy_write_struct(&png, nullptr);
         fclose(file);
-        std::exit(exitcode::ERROR);
+        throw std::invalid_argument("Error: Cannot create info_struct");
     }
 
-    if (setjmp(png_jmpbuf(png))) {
-        std::cerr << "Error: bad setjmp(png_jmpbuf(png))" << std::endl;
+    if (setjmp(png_jmpbuf(png)))
+    {
         png_destroy_write_struct(&png, &info);
         fclose(file);
-        std::exit(exitcode::ERROR);
+        throw std::invalid_argument("Error: bad setjmp(png_jmpbuf(png))");
     }
 
     png_init_io(png, file);
@@ -126,29 +118,32 @@ Image::save(const std::string &filename)
 Color 
 Image::pixel(const drawing::Point &_p) const
 {
-    if (_p.x() >= this->_width || _p.y() >= this->_height) {
-        std::cerr << "Error: Invalid pixel coordinates" << std::endl;
-        std::exit(exitcode::ERROR);
-    }
+    if (_p.x() >= this->_width || _p.y() >= this->_height)
+        throw std::invalid_argument("Error: Invalid pixel coordinates");
 
+    
     return Color(
         this->_rows[_p.y()][_p.x() * this->_channels], 
         this->_rows[_p.y()][_p.x() * this->_channels + 1], 
-        this->_rows[_p.y()][_p.x() * this->_channels + 2]
+        this->_rows[_p.y()][_p.x() * this->_channels + 2],
+        this->_channels > 3 
+            ? this->_rows[_p.y()][_p.x() * this->_channels + 3]
+            : 255
     );
 }
 
 Color 
 Image::pixel(const drawing::Point &_p, const Color &color)
 {
-    if (_p.x() >= this->_width || _p.y() >= this->_height) {
-        std::cerr << "Error: Invalid pixel coordinates" << std::endl;
-        std::exit(exitcode::ERROR);
-    }
+    if (_p.x() >= this->_width || _p.y() >= this->_height) 
+        throw std::invalid_argument("Error: Invalid pixel coordinates");
 
     this->_rows[_p.y()][_p.x() * this->_channels] = color.r();
     this->_rows[_p.y()][_p.x() * this->_channels + 1] = color.g();
     this->_rows[_p.y()][_p.x() * this->_channels + 2] = color.b();
+    if (this->_channels > 3)
+        this->_rows[_p.y()][_p.x() * this->_channels + 3] = color.a();
+
     return color;
 
 }
@@ -183,15 +178,21 @@ Image::_clear_read_data()
 
 
 void
-Image::_check_png(FILE *file) const
+Image::_check_png(const std::string &filename)
 {
+    FILE *file = fopen(filename.c_str(), "rb");
+    if (!file)
+        throw std::invalid_argument("Error: Cannot open file");
+
     png_byte signature[8];
     fread(signature, 1, 8, file);
-    if (png_sig_cmp(signature, 0, 8)) {
-        std::cerr << "Error: File is not a valid PNG (invalid signature)" << std::endl;
+    if (png_sig_cmp(signature, 0, 8)) 
+    {
         fclose(file);
-        std::exit(exitcode::ERROR);
+        throw std::runtime_error("Error: File is not a valid PNG (invalid signature)");
     }
+
+    fclose(file);
 
 }
 

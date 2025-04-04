@@ -1,20 +1,21 @@
 #include "image.h"
-#include "circle_builder.h"
+#include "line_builder.h"
 
 
 int main(int argc, char **argv)
 {
     png::Image image("./data/image.png");
 
-    drawing::CircleBuilder circle_builder;
-    circle_builder.setup_center({500, 500})
-                  .setup_radius(100)
-                  .setup_color(png::Color(0, 255, 0));
+    drawing::LineBuilder builder;
+    builder.setup_color(png::Color(0, 255, 0))
+           .setup_thickness(50)
+           .setup_start({0, 0})
+           .setup_end({500, 500});
 
-    circle_builder.get()->draw(image);
+    builder.get()->draw(image);
 
     image.save("./data/output.png");
 
-    return 0;
+    return final::exitcode::DEFAULT;
 
 }

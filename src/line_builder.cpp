@@ -3,7 +3,7 @@
 
 _DRAWING_BEGIN
 
-REG_BUILDER_DEFAULT_METHODS(Line)
+REALIZE_BUILDER_DEFAULT_METHODS(Line)
 
 BUILDER(Line)&
 BUILDER(Line)::setup_start(const Point &_s_p)

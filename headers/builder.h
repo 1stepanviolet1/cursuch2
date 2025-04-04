@@ -36,12 +36,12 @@ public:
         _NAME *REF(_NAME);                      \
     };
 
-#define REG_BUILDER_DEFAULT_METHODS(_NAME)  \
-    Figure*                                 \
-    BUILDER(_NAME)::get() const noexcept    \
-    { return this->REF(_NAME); }            \
-                                            \
-    BUILDER(_NAME)::~BUILDER(_NAME)()       \
+#define REALIZE_BUILDER_DEFAULT_METHODS(_NAME)  \
+    Figure*                                     \
+    BUILDER(_NAME)::get() const noexcept        \
+    { return this->REF(_NAME); }                \
+                                                \
+    BUILDER(_NAME)::~BUILDER(_NAME)()           \
     { delete this->REF(_NAME); }
 
 _DRAWING_END

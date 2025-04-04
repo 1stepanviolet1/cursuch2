@@ -47,7 +47,7 @@ public:
 protected:
     void _clear_read_data();
 
-    void _check_png(FILE* file) const;
+    static void _check_png(const std::string &filename);
 
 };
 

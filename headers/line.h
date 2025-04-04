@@ -4,7 +4,7 @@
 #ifndef _LINE_H
 #define _LINE_H
 
-#include "figure.h"
+#include "circle_builder.h"
 #include "builder.h"
 
 _DRAWING_BEGIN

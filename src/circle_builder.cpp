@@ -3,7 +3,7 @@
 
 _DRAWING_BEGIN
 
-REG_BUILDER_DEFAULT_METHODS(Circle)
+REALIZE_BUILDER_DEFAULT_METHODS(Circle)
 
 BUILDER(Circle)&
 BUILDER(Circle)::setup_center(const Point &_c)

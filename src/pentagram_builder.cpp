@@ -3,7 +3,7 @@
 
 _DRAWING_BEGIN
 
-REG_BUILDER_DEFAULT_METHODS(Pentagram)
+REALIZE_BUILDER_DEFAULT_METHODS(Pentagram)
 
 BUILDER(Pentagram)&
 BUILDER(Pentagram)::setup_center(const Point &_c)
