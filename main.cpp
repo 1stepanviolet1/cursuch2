@@ -7,10 +7,10 @@ int main(int argc, char **argv)
     png::Image image("./data/image.png");
 
     drawing::LineBuilder builder;
-    builder.setup_color(png::Color(0, 255, 0))
+    builder.setup_color(png::Color(200, 0, 200))
            .setup_thickness(50)
-           .setup_start({0, 0})
-           .setup_end({500, 500});
+           .setup_start({700, 800})
+           .setup_end({900, 600});
 
     builder.get()->draw(image);
 
