@@ -8,7 +8,14 @@ REALIZE_BUILDER_DEFAULT_METHODS(Mirror)
 BUILDER(Mirror)&
 BUILDER(Mirror)::setup_axis(Axis _a)
 {
-    this->REF(Mirror)->_axis= _a; 
+    this->REF(Mirror)->_axis = _a; 
+    return *this; 
+}
+
+BUILDER(Mirror)&
+BUILDER(Mirror)::setup_axis(const char _a)
+{
+    this->setup_axis(make_axis(_a)); 
     return *this; 
 }
 

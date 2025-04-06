@@ -11,14 +11,18 @@ _DRAWING_BEGIN
 class Point
 {
 public:
-    Point(std::size_t x, std::size_t y);
+    constexpr Point(std::uint64_t x, std::uint64_t y)
+        : _x(x), _y(y)
+    {    }
 
-    std::size_t x() const noexcept;
-    std::size_t y() const noexcept;
+    constexpr std::uint64_t x() const noexcept
+    { return this->_x; }
+    constexpr std::uint64_t y() const noexcept
+    { return this->_y; }
 
 protected:
-    std::size_t _x;
-    std::size_t _y;
+    std::uint64_t _x;
+    std::uint64_t _y;
 
 };
 

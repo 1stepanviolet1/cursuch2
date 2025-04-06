@@ -14,7 +14,7 @@ class Line : public Figure
     friend class BUILDER(Line);
 
 public:
-    Line();
+    explicit Line();
 
     void draw(png::Image &_image) const override;
 

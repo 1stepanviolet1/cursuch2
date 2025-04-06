@@ -38,14 +38,14 @@ Line::draw(png::Image &_image) const
         {
             if (__s_x >= 0 && __s_x < _image.width() && __s_y >= 0 && __s_y < _image.height()) 
                 _image.pixel({
-                    static_cast<std::size_t>(__s_x), 
-                    static_cast<std::size_t>(__s_y)
+                    static_cast<std::uint64_t>(__s_x), 
+                    static_cast<std::uint64_t>(__s_y)
                 }, this->_color);
         } else 
         {
             circle_builder.setup_center({
-                static_cast<std::size_t>(__s_x), 
-                static_cast<std::size_t>(__s_y)
+                static_cast<std::uint64_t>(__s_x), 
+                static_cast<std::uint64_t>(__s_y)
             });
             circle_builder.get()->draw(_image);
         }
