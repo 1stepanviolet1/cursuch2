@@ -19,6 +19,7 @@ all: setup ${PROJECT} clean
 
 
 setup:
+	make clean
 	mkdir ${TMP}
 
 ${PROJECT}: ${OBJECTS}
