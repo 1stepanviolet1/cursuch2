@@ -19,7 +19,7 @@ all: setup ${PROJECT} clean
 
 
 setup:
-	make clean
+	rm -rf ${TMP}
 	mkdir ${TMP}
 
 ${PROJECT}: ${OBJECTS}
