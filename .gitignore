@@ -37,3 +37,6 @@ bin/
 # Tmp
 .tmp/
 *.tmp
+
+# For test
+test.cpp
