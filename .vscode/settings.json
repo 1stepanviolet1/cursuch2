@@ -53,6 +53,7 @@
         "fstream": "cpp",
         "span": "cpp",
         "variant": "cpp",
-        "text_encoding": "cpp"
+        "text_encoding": "cpp",
+        "sstream": "cpp"
     }
 }

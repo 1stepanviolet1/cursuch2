@@ -39,7 +39,7 @@ enum exitcode
 template<typename T> void 
 __exit(int _exitcode, T &&arg)
 {
-    std::cerr << arg << std::endl;
+    std::cout << arg << std::endl;
     std::exit(_exitcode);
 
 }
@@ -47,7 +47,7 @@ __exit(int _exitcode, T &&arg)
 template<typename T, typename ..._Args> void 
 __exit(int _exitcode, T &&arg, _Args&& ..._args)
 {
-    std::cerr << arg << ' ';
+    std::cout << arg << ' ';
     __exit(_exitcode, std::forward<_Args>(_args)...);
 
 }

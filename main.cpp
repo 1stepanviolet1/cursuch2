@@ -1,29 +1,75 @@
 #include "image.h"
 #include "draw.h"
+#include "options_parser.h"
 
 
 int main(int argc, char **argv)
 {
-    png::Image image("./data/image.png");
+    sys::options_parser parser;
 
-    drawing::PentagramBuilder builder;
+    try
+    {
+        parser.parse(argc, argv);
+    } catch(const std::invalid_argument& err)
+    {
+        sys::error("Error:", err.what());
+    }
 
-    builder.setup_center({500, 500})
-           .setup_color(png::Color(255, 255, 0))
-           .setup_radius(200)
-           .setup_thickness(50);
+    drawing::Builder *builder;
 
-    // builder.setup_axis('x')
-    //        .setup_left_up({500, 500})
-    //        .setup_right_down({1100, 1100});
+    switch (parser.type)
+    {
+    case drawing::figure_type::line:
+        drawing::LineBuilder *line_builder;
+        try { line_builder = new drawing::LineBuilder; }
+        catch(const std::bad_alloc& err)
+        { sys::error(err.what()); }
+        
+        try
+        {
+            (*line_builder).setup_color(parser.color)
+                           .setup_thickness(parser.thickness)
+                           .setup_start(parser.start)
+                           .setup_end(parser.end);
+        }
+        catch(const std::invalid_argument& err)
+        {
+            sys::error("Error:", err.what());
+        }
+        
+        break;
+    
+    case drawing::figure_type::mirror:
+        try
+        {
+            /* code */
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        
+        break;
 
-    // builder.setup_color(png::Color(0, 255, 0))
-    //        .setup_center({1000, 1000})
-    //        .setup_radius(50);
+    case drawing::figure_type::pentagram:
+        try
+        {
+            /* code */
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        
+        break;
 
-    builder.get()->draw(image);
+    case drawing::figure_type::null:
+        sys::error("Error: bad figure_type");
+    
+    default:
+        sys::error("invalid situation: unknown figure_type");
 
-    image.save("./data/output.png");
+    }
 
     return sys::exitcode::DEFAULT;
 

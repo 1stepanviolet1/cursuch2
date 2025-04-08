@@ -39,14 +39,15 @@ public:
         : type(drawing::figure_type::null),
           thickness(0),
           axis(drawing::make_axis()),
+          radius(0),
           is_help(false),
           is_info(false)
     {    }
 
     void parse(int argc, char **argv);
 
-    static const std::string& sep() noexcept;
-    static const std::string& sep(const std::string& _s) noexcept;
+    static char sep() noexcept;
+    static char sep(char _s) noexcept;
 
     ~options_parser() noexcept = default;
 
@@ -68,7 +69,7 @@ public:
     drawing::Point right_down;
 
     drawing::Point center;
-    drawing::Point radius;
+    std::uint64_t radius;
 
     bool is_help;
     bool is_info;
@@ -77,7 +78,7 @@ public:
     std::string output;
 
 private:
-    static std::string _sep;
+    static char _sep;
 
 };
 
