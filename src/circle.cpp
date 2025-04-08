@@ -17,19 +17,19 @@ Circle::draw(png::Image &_image) const
     std::int64_t __y = this->_center.y();
     std::int64_t __r = this->_radius;
 
-    std::size_t min_x = __x - __r >= 0 
+    std::uint64_t min_x = __x - __r >= 0 
                ? __x - __r 
                : 0;
     
-    std::size_t max_x = __x + __r < _image.width()
+    std::uint64_t max_x = __x + __r < _image.width()
                ? __x + __r
                : _image.width() - 1;
 
-    std::size_t min_y = __y - __r >= 0
+    std::uint64_t min_y = __y - __r >= 0
                ? __y - __r
                : 0;
 
-    std::size_t max_y = __y + __r < _image.height()
+    std::uint64_t max_y = __y + __r < _image.height()
                ? __y + __r
                : _image.height() - 1;
 
@@ -43,8 +43,8 @@ Circle::draw(png::Image &_image) const
             if (
                 std::pow(__dx, 2) + std::pow(__dy, 2) <= std::pow(__r, 2)
             ) _image.pixel({
-                static_cast<std::size_t>(x),
-                static_cast<std::size_t>(y)
+                static_cast<std::uint64_t>(x),
+                static_cast<std::uint64_t>(y)
             }, this->_color);
         }
 

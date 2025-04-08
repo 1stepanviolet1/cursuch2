@@ -169,10 +169,10 @@ Image::_clear_read_data()
     if (this->_png_read_ptr == NULL && this->_info_read_ptr == NULL)
         return;
     
-    png_destroy_read_struct(&this->_png_read_ptr, &this->_info_read_ptr, nullptr);
-    this->_png_read_ptr = nullptr;
-    this->_info_read_ptr = nullptr;
-    this->_rows = nullptr;
+    png_destroy_read_struct(&this->_png_read_ptr, &this->_info_read_ptr, NULL);
+    this->_png_read_ptr = NULL;
+    this->_info_read_ptr = NULL;
+    this->_rows = NULL;
 
 }
 

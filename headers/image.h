@@ -15,10 +15,10 @@ _PNG_BEGIN
 class Image
 {
 protected:
-    png_structp _png_read_ptr = nullptr;
-    png_infop _info_read_ptr = nullptr;
+    png_structp _png_read_ptr = NULL;
+    png_infop _info_read_ptr = NULL;
     
-    png_bytepp _rows = nullptr;
+    png_bytepp _rows = NULL;
     png_byte _channels;
 
     std::size_t _width;

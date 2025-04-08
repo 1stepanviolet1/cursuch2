@@ -13,7 +13,7 @@ BUILDER(Pentagram)::setup_center(const Point &_c)
 }
 
 BUILDER(Pentagram)&
-BUILDER(Pentagram)::setup_radius(std::size_t _r)
+BUILDER(Pentagram)::setup_radius(std::uint64_t _r)
 {
     if (_r < 1)
         throw std::invalid_argument("Pentagram radius must be greater than 0");
