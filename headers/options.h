@@ -6,6 +6,7 @@
 
 #include <cstdint>
 #include <iostream>
+#include <stdexcept>
 
 // namespace png
 #define _PNG_BEGIN \
@@ -19,14 +20,14 @@
     {
 #define _DRAWING_END } // drawing
 
-// namespace final
-#define _FINAL_BEGIN \
-    namespace final  \
+// namespace sys
+#define _SYS_BEGIN \
+    namespace sys  \
     {
-#define _FINAL_END } // final
+#define _SYS_END } // sys
 
 
-_FINAL_BEGIN
+_SYS_BEGIN
 
 enum exitcode
 {
@@ -59,7 +60,7 @@ template<typename ..._Args> void
 exit(_Args ..._args)
 { __exit(exitcode::OK, _args...); }
 
-_FINAL_END
+_SYS_END
 
 
 #endif // _OPTIONS_H

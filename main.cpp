@@ -25,6 +25,6 @@ int main(int argc, char **argv)
 
     image.save("./data/output.png");
 
-    return final::exitcode::DEFAULT;
+    return sys::exitcode::DEFAULT;
 
 }

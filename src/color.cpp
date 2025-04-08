@@ -16,14 +16,6 @@ Color::Color(std::size_t _r, std::size_t _g, std::size_t _b)
     : Color(_r, _g, _b, 255)
 {    }
 
-Color::Color()
-{
-    this->r(0);
-    this->g(0);
-    this->b(0);
-
-}
-
 REALIZE_GETTER_COLOR_CHANNEL(r)
 REALIZE_GETTER_COLOR_CHANNEL(g)
 REALIZE_GETTER_COLOR_CHANNEL(b)

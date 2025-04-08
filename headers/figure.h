@@ -16,6 +16,14 @@ public:
 
 };
 
+enum figure_type
+{
+    line = 'L',
+    mirror = 'M',
+    pentagram = 'P',
+    null = 0
+};
+
 _DRAWING_END
 
 

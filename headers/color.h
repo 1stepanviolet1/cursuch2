@@ -37,7 +37,10 @@ class Color
 public:
     explicit Color(std::size_t _r, std::size_t _g, std::size_t _b, std::size_t _a);
     explicit Color(std::size_t _r, std::size_t _g, std::size_t _b);
-    explicit Color();
+
+    constexpr explicit Color()
+        : _r(0), _g(0), _b(0), _a(0)
+    {    }
 
     REG_GETTER_COLOR_CHANNEL(r)
     REG_GETTER_COLOR_CHANNEL(g)

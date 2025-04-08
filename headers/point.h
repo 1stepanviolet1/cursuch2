@@ -15,6 +15,9 @@ public:
         : _x(x), _y(y)
     {    }
 
+    constexpr Point() : Point(0, 0) 
+    {    }
+
     constexpr std::uint64_t x() const noexcept
     { return this->_x; }
     constexpr std::uint64_t y() const noexcept
