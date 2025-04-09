@@ -24,7 +24,7 @@
     png_byte                                                        \
     Color::_C(std::size_t _v)                                       \
     {                                                               \
-        if (_v > 256)                                               \
+        if (_v > 255)                                               \
             throw std::invalid_argument("Invalid RGB color value"); \
                                                                     \
         return this->_##_C = static_cast<png_byte>(_v);             \

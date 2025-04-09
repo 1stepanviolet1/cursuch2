@@ -4,6 +4,8 @@
 #ifndef _LINE_H
 #define _LINE_H
 
+#include <vector>
+
 #include "circle_builder.h"
 #include "builder.h"
 

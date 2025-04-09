@@ -42,10 +42,7 @@ Circle::draw(png::Image &_image) const
 
             if (
                 std::pow(__dx, 2) + std::pow(__dy, 2) <= std::pow(__r, 2)
-            ) _image.pixel({
-                static_cast<std::uint64_t>(x),
-                static_cast<std::uint64_t>(y)
-            }, this->_color);
+            ) _image.pixel({x, y}, this->_color);
         }
 
 }

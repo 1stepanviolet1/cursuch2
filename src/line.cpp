@@ -32,23 +32,11 @@ Line::draw(png::Image &_image) const
     if (this->_thickness > 1) 
         circle_builder.setup_radius(this->_thickness / 2);
 
+    std::vector<Point> line_points;
     while (true) 
     {
-        if (this->_thickness == 1) 
-        {
-            if (__s_x >= 0 && __s_x < _image.width() && __s_y >= 0 && __s_y < _image.height()) 
-                _image.pixel({
-                    static_cast<std::uint64_t>(__s_x), 
-                    static_cast<std::uint64_t>(__s_y)
-                }, this->_color);
-        } else 
-        {
-            circle_builder.setup_center({
-                static_cast<std::uint64_t>(__s_x), 
-                static_cast<std::uint64_t>(__s_y)
-            });
-            circle_builder.get()->draw(_image);
-        }
+        if (__s_x >= 0 && __s_x < _image.width() && __s_y >= 0 && __s_y < _image.height())
+            line_points.push_back({__s_x, __s_y});
 
         if (__s_x == __e_x && __s_y == __e_y)
             break;
@@ -67,6 +55,19 @@ Line::draw(png::Image &_image) const
             __s_y += sy;
         }
 
+    }
+
+    if (this->_thickness == 1) 
+    {
+        for (const auto &_pt : line_points)
+            _image.pixel(_pt, this->_color);
+    } else 
+    {
+        for (const auto &_pt : line_points)
+        {
+            circle_builder.setup_center(_pt);
+            circle_builder.get()->draw(_image);
+        }
     }
 
 }
