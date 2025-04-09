@@ -6,6 +6,7 @@
 
 #include <getopt.h>
 #include <sstream>
+#include <algorithm>
 
 #include "draw.h"
 

@@ -110,6 +110,9 @@ options_parser::parse(int argc, char **argv)
 png::Color
 options_parser::__get_color(const std::string &_pttrn)
 {
+    if (std::count(_pttrn.begin(), _pttrn.end(), sep()) != 2)
+        throw std::invalid_argument("bad color");
+
     std::stringstream ss(_pttrn);
     std::string token;
     png::Color color;
@@ -130,6 +133,9 @@ options_parser::__get_color(const std::string &_pttrn)
 drawing::Point
 options_parser::__get_point(const std::string &_pttrn)
 {
+    if (std::count(_pttrn.begin(), _pttrn.end(), sep()) != 1)
+        throw std::invalid_argument("bad point");
+
     std::stringstream ss(_pttrn);
     std::string token;
 
