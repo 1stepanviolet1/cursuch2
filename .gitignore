@@ -40,3 +40,6 @@ bin/
 
 # For test
 test.cpp
+
+# For vscode
+.vscode/
