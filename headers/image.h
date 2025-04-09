@@ -34,7 +34,7 @@ public:
     explicit Image(const std::string &filename = "");
 
     void load(const std::string &filename);
-    void save(const std::string &filename);
+    void save(const std::string &filename = "out.png") const;
 
     Color pixel(const drawing::Point &_p) const;
     Color pixel(const drawing::Point &_p, const Color &color);

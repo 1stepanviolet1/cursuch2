@@ -10,8 +10,8 @@ options_parser::sep() noexcept
 { return _sep; }
 
 char
-options_parser::sep(char _s) noexcept
-{ return _sep = _s; }
+options_parser::sep(char _c) noexcept
+{ return _sep = _c; }
 
 
 void 
@@ -24,83 +24,83 @@ options_parser::parse(int argc, char **argv)
     {
         switch(opt)
         {
-            case 'L':
+            case 'L':{
                 this->type = drawing::figure_type::line;
-                break;
+                break;}
             
-            case 'M':
+            case 'M':{
                 this->type = drawing::figure_type::mirror;
-                break;
+                break;}
 
-            case 'P':
+            case 'P':{
                 this->type = drawing::figure_type::pentagram;
-                break;
+                break;}
 
-            case 's':
+            case 's':{
                 this->start = __get_point(optarg);
-                break;
+                break;}
             
-            case 'e':
+            case 'e':{
                 this->end = __get_point(optarg);
-                break;
+                break;}
             
-            case 'C':
+            case 'C':{
                 this->color = __get_color(optarg);
-                break;
+                break;}
             
-            case 't':
+            case 't':{
                 std::int64_t thickness = std::stoi(optarg);
                 if (thickness <= 0)
                     throw std::invalid_argument("bad thickness");
 
                 this->thickness = thickness;
-                break;
+                break;}
 
-            case 'a':
+            case 'a':{
                 this->axis = drawing::make_axis(*optarg);
                 if (this->axis == drawing::make_axis())
                     throw std::invalid_argument("bad axis");
 
-                break;
+                break;}
             
-            case 'l':
+            case 'l':{
                 this->left_up = __get_point(optarg);
-                break;
+                break;}
             
-            case 'r':
+            case 'r':{
                 this->right_down = __get_point(optarg);
-                break;
+                break;}
 
-            case 'c':
+            case 'c':{
                 this->center = __get_point(optarg);
-                break;
+                break;}
             
-
-            case 'R':
+            case 'R':{
                 std::int64_t radius = std::stoi(optarg);
                 if (radius <= 0)
                     throw std::invalid_argument("bad radius");
 
                 this->radius = radius;
-                break;
+                break;}
 
-            case 'h':
+            case 'h':{
                 this->is_help = true;
-                return;
+                return;}
             
-            case 'I':
+            case 'I':{
                 this->is_info = true;
-                break;
+                break;}
             
-            case 'i':
+            case 'i':{
                 this->input = optarg;
-                break;
+                break;}
             
-            case 'o':
+            case 'o':{
                 this->output = optarg;
-                break;
+                break;}
             
             case '?':
+            default:
                 throw std::invalid_argument("bad option");
             
         }

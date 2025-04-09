@@ -13,18 +13,21 @@ Image::Image(const std::string &filename)
 void 
 Image::load(const std::string &filename) 
 {
+    if (filename.empty())
+        throw std::invalid_argument("bad input filename");
+
     this->_clear_read_data();
     this->_check_png(filename);
 
     FILE *file = fopen(filename.c_str(), "rb");
     if (!file)
-        throw std::invalid_argument("Error: Cannot open file");
+        throw std::invalid_argument("Cannot open file");
 
     png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     if (!png)
     {
         fclose(file);
-        throw std::invalid_argument("Error: Cannot create png_struct");
+        throw std::invalid_argument("Cannot create png_struct");
     }
 
     png_infop info = png_create_info_struct(png);
@@ -32,14 +35,14 @@ Image::load(const std::string &filename)
     {
         png_destroy_read_struct(&png, nullptr, nullptr);
         fclose(file);
-        throw std::invalid_argument("Error: Cannot create info_struct");
+        throw std::invalid_argument("Cannot create info_struct");
     }
 
     if (setjmp(png_jmpbuf(png)))
     {
         png_destroy_read_struct(&png, &info, nullptr);
         fclose(file);
-        throw std::invalid_argument("Error: bad setjmp(png_jmpbuf(png))");
+        throw std::invalid_argument("bad setjmp(png_jmpbuf(png))");
     }
 
     png_init_io(png, file);
@@ -67,20 +70,23 @@ Image::load(const std::string &filename)
 
 
 void 
-Image::save(const std::string &filename)
+Image::save(const std::string &filename) const
 {
+    if (filename.empty())
+        return this->save();
+
     if (this->_png_read_ptr == NULL || this->_info_read_ptr == NULL)
-        throw std::invalid_argument("Error: No image data to save");
+        throw std::invalid_argument("No image data to save");
 
     FILE *file = fopen(filename.c_str(), "wb");
     if (!file)
-        throw std::invalid_argument("Error: Cannot open file");
+        throw std::invalid_argument("Cannot open file");
 
     png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     if (!png)
     {
         fclose(file);
-        throw std::invalid_argument("Error: Cannot create png_struct");
+        throw std::invalid_argument("Cannot create png_struct");
     }
 
     png_infop info = png_create_info_struct(png);
@@ -88,14 +94,14 @@ Image::save(const std::string &filename)
     {
         png_destroy_write_struct(&png, nullptr);
         fclose(file);
-        throw std::invalid_argument("Error: Cannot create info_struct");
+        throw std::invalid_argument("Cannot create info_struct");
     }
 
     if (setjmp(png_jmpbuf(png)))
     {
         png_destroy_write_struct(&png, &info);
         fclose(file);
-        throw std::invalid_argument("Error: bad setjmp(png_jmpbuf(png))");
+        throw std::invalid_argument("bad setjmp(png_jmpbuf(png))");
     }
 
     png_init_io(png, file);
@@ -119,7 +125,7 @@ Color
 Image::pixel(const drawing::Point &_p) const
 {
     if (_p.x() >= this->_width || _p.y() >= this->_height)
-        throw std::invalid_argument("Error: Invalid pixel coordinates");
+        throw std::invalid_argument("Invalid pixel coordinates");
 
     
     return Color(
@@ -136,7 +142,7 @@ Color
 Image::pixel(const drawing::Point &_p, const Color &color)
 {
     if (_p.x() >= this->_width || _p.y() >= this->_height) 
-        throw std::invalid_argument("Error: Invalid pixel coordinates");
+        throw std::invalid_argument("Invalid pixel coordinates");
 
     this->_rows[_p.y()][_p.x() * this->_channels] = color.r();
     this->_rows[_p.y()][_p.x() * this->_channels + 1] = color.g();
@@ -182,14 +188,14 @@ Image::_check_png(const std::string &filename)
 {
     FILE *file = fopen(filename.c_str(), "rb");
     if (!file)
-        throw std::invalid_argument("Error: Cannot open file");
+        throw std::invalid_argument("Cannot open file");
 
     png_byte signature[8];
     fread(signature, 1, 8, file);
     if (png_sig_cmp(signature, 0, 8)) 
     {
         fclose(file);
-        throw std::runtime_error("Error: File is not a valid PNG (invalid signature)");
+        throw std::runtime_error("File is not a valid PNG (invalid signature)");
     }
 
     fclose(file);

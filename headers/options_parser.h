@@ -11,9 +11,9 @@
 
 _SYS_BEGIN
 
-constexpr char *options = "LMPs:e:C:t:a:l:r:c:R:hIi:o:";
+constexpr const char *options = "LMPs:e:C:t:a:l:r:c:R:hIi:o:";
 
-constexpr struct option long_options[] = {
+constexpr const struct option long_options[] = {
     {"line", no_argument, NULL, 'L'},
     {"mirror", no_argument, NULL, 'M'},
     {"pentagram", no_argument, NULL, 'P'},
@@ -35,7 +35,7 @@ constexpr struct option long_options[] = {
 class options_parser
 {
 public:
-    constexpr explicit options_parser() 
+    explicit options_parser() 
         : type(drawing::figure_type::null),
           thickness(0),
           axis(drawing::make_axis()),
@@ -47,11 +47,11 @@ public:
     void parse(int argc, char **argv);
 
     static char sep() noexcept;
-    static char sep(char _s) noexcept;
+    static char sep(char _c) noexcept;
 
     ~options_parser() noexcept = default;
 
-private:
+protected:
     static png::Color __get_color(const std::string &_pttrn);
     static drawing::Point __get_point(const std::string &_pttrn);
 

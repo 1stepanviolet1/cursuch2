@@ -3,7 +3,7 @@ PROJECT = cw
 CORE = src/
 HEADERS = ./headers/
 TMP = .tmp/
-BIN = bin/
+BIN = 
 
 CPPC = g++
 CPPFLAGS = -I${HEADERS} -std=c++17

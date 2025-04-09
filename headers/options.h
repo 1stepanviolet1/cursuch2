@@ -53,12 +53,20 @@ __exit(int _exitcode, T &&arg, _Args&& ..._args)
 }
 
 template<typename ..._Args> void 
-error(_Args ..._args)
-{ __exit(exitcode::ERROR, _args...); }
+error(_Args&& ..._args)
+{ __exit(exitcode::ERROR, std::forward<_Args>(_args)...); }
 
 template<typename ..._Args> void 
-exit(_Args ..._args)
-{ __exit(exitcode::OK, _args...); }
+exit(_Args&& ..._args)
+{ __exit(exitcode::OK, std::forward<_Args>(_args)...); }
+
+template<typename ..._Args> void 
+exit()
+{ std::exit(exitcode::OK); }
+
+
+void print_help_info();
+void print_author_info();
 
 _SYS_END
 
